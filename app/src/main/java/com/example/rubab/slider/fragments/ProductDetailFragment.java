@@ -35,7 +35,8 @@ public class ProductDetailFragment extends Fragment {
     int price;
     String img;
     String catid;
-    int qty = 0;
+    int qty = 1;
+    int initialPrice = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +53,7 @@ public class ProductDetailFragment extends Fragment {
         txtQty = root.findViewById(R.id.txt_qty);
         btnBuy = root.findViewById(R.id.btn_buy);
 
-        txtQty.setText("0");
+        txtQty.setText("1");
 
         if (getArguments() != null) {
             id = getArguments().getString("id");
@@ -65,16 +66,18 @@ public class ProductDetailFragment extends Fragment {
             Glide.with(this).load(img).into(img_product);
             txtTitle.setText(title);
             txt_des.setText(description);
-            txt_price.setText(""+price);
+            txt_price.setText("Price. Rs "+price);
+            initialPrice = price;
         }
 
         img_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (qty <= 10){
-                    qty += qty;
-                    price = price* qty;
-                    txt_price.setText(""+price);
+                if (qty < 10){
+                    qty = qty+1;
+                    price = price + initialPrice;
+                    txt_price.setText("Price. Rs "+price);
+                    txtQty.setText(""+qty);
                 }
             }
         });
@@ -82,10 +85,11 @@ public class ProductDetailFragment extends Fragment {
         img_minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (qty > 10){
-                    qty -= qty;
-                    price = price * qty;
-                    txt_price.setText(""+price);
+                if (qty > 1){
+                    qty = qty-1;
+                    price -= initialPrice;
+                    txt_price.setText("Price. Rs "+price);
+                    txtQty.setText(""+qty);
                 }
             }
         });
@@ -100,7 +104,8 @@ public class ProductDetailFragment extends Fragment {
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartModel cart = new CartModel(id,catid,txtTitle.getText().toString(),txt_price.getText().toString(), txtQty.getText().toString());
+                String mPrice = String.valueOf(price);
+                CartModel cart = new CartModel(id,catid,txtTitle.getText().toString(),mPrice, txtQty.getText().toString());
                 sqLiteDatabase.addToCart(cart);
             }
         });

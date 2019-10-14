@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.rubab.slider.models.CartModel;
 import com.example.rubab.slider.models.CategoriesModel;
@@ -187,13 +188,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addToCart(CartModel item) {
         myDataBase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("c_id", item.getC_id());
-        values.put("p_id", item.getP_id());
-        values.put("product_name", item.getProduct_name());
-        values.put("product_price", item.getProduct_price());
+        values.put("productid", item.getP_id());
+        values.put("catid", item.getC_id());
+        values.put("productname", item.getProduct_name());
+        values.put("price", item.getProduct_price());
+        values.put("qty", item.getQty());
 
         try {
             myDataBase.insertWithOnConflict("cart", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+            Toast.makeText(mycontext,"Inserted", Toast.LENGTH_SHORT).show();
         } catch (SQLiteException e) {
             e.printStackTrace();
         }
