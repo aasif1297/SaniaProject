@@ -1,13 +1,12 @@
 package com.example.rubab.slider.adapters;
 
-import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.rubab.slider.fragments.EStoreFragment;
-import com.example.rubab.slider.fragments.ProductDetailFragment;
-import com.example.rubab.slider.models.CategoriesModel;
 import com.example.rubab.slider.R;
+import com.example.rubab.slider.fragments.ProductDetailFragment;
 import com.example.rubab.slider.models.ItemsModel;
 
 import java.util.List;
@@ -29,8 +26,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
 
     private Context context;
     private List<ItemsModel> productList;
-    public  ItemsAdapter(Context context,List<ItemsModel> productList)
-    {
+    public  ItemsAdapter(Context context,List<ItemsModel> productList){
         this.context = context;
         this.productList = productList;
     }
@@ -40,17 +36,16 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
     @NonNull
     @Override
     public ItemsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
-        View inflate= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.items_categories, null);
+        View inflate= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_product, null);
         return new ItemsViewHolder(inflate);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemsViewHolder itemsViewHolder, int position) {
 
-        ItemsModel item = productList.get(position);
+        final ItemsModel item = productList.get(position);
 
-        itemsViewHolder.tv.setText(item.getDescription());
+        itemsViewHolder.txt_des.setText(item.getDescription());
         itemsViewHolder.txt_price.setText(item.getPrice());
         itemsViewHolder.txt_title.setText(item.getTitle());
         Glide.with(itemsViewHolder.itemView)
@@ -60,7 +55,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         itemsViewHolder.btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setupHomeFragment(new ProductDetailFragment());
+                setupHomeFragment(new ProductDetailFragment(), item.getId(), item.getCatid(), item.getTitle(), item.getDescription(), item.getPrice(), item.getImageUrl());
             }
         });
     }
@@ -74,9 +69,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
     {
         View itemView;
         ImageView imageView;
-        TextView tv;
         TextView txt_price;
         TextView txt_title;
+        TextView txt_des;
         Button btn_buy;
 
 
@@ -84,7 +79,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
             super(itemView);
 
             imageView=itemView.findViewById(R.id.item_img);
-            tv=itemView.findViewById(R.id.txt_des);
+            txt_des=itemView.findViewById(R.id.txt_des);
             txt_price=itemView.findViewById(R.id.txt_price);
             txt_title=itemView.findViewById(R.id.txt_title);
             btn_buy=itemView.findViewById(R.id.btn_buy);
@@ -92,9 +87,18 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         }
     }
 
-    private void setupHomeFragment(Fragment fragment) {
+    private void setupHomeFragment(Fragment fragment, String id, String catid, String title, String des, String price, String image) {
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         fragmentManager.popBackStack();
+        Fragment ldf = fragment;
+        Bundle args = new Bundle();
+        args.putString("id", id);
+        args.putString("catid", catid);
+        args.putString("title", title);
+        args.putString("des", des);
+        args.putString("price", price);
+        args.putString("image", image);
+        ldf.setArguments(args);
         fragmentManager.beginTransaction().add(R.id.content_main, fragment).commit();
     }
 }

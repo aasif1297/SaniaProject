@@ -29,7 +29,7 @@
             android:layout_height="0dp"
             android:src="@drawable/demo_bg"
             android:scaleType="centerCrop"
-            android:id="@+id/item_img"
+            android:id="@+id/cat_img"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

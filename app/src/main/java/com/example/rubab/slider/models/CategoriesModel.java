@@ -4,16 +4,15 @@ public class CategoriesModel {
 
     private String ImageUrl;
     private String title;
-    private  String description;
-    private String price;
+    private String id;
 
-
-
-    public CategoriesModel(String imageUrl, String title, String description, String price) {
+    public CategoriesModel(String imageUrl, String title, String id) {
         ImageUrl = imageUrl;
         this.title = title;
-        this.description = description;
-        this.price = price;
+        this.id = id;
+    }
+
+    public CategoriesModel() {
     }
 
     public String getImageUrl() {
@@ -32,19 +31,11 @@ public class CategoriesModel {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getId() {
+        return id;
     }
 
-    public void setDescription(String description) {
-        this. description = description;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.rubab.slider.adapters.CategoryAdapter;
 import com.example.rubab.slider.database.DatabaseHelper;
 import com.example.rubab.slider.models.CategoriesModel;
 import com.example.rubab.slider.R;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     SliderAdapterExample adapter;
 
     RecyclerView recyclerView;
-    ItemsAdapter itadapter;
+    CategoryAdapter itadapter;
 
     DatabaseHelper sqLiteDatabase;
 
@@ -45,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        List<ItemsModel> productsList =  sqLiteDatabase.fetchProducts();
+        List<CategoriesModel> categoryList =  sqLiteDatabase.fetchCategories();
 
         recyclerView= findViewById(R.id.my_recycler_view);
-        itadapter=new ItemsAdapter(this,productsList);
+        itadapter=new CategoryAdapter(this,categoryList);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         recyclerView.setAdapter(itadapter);

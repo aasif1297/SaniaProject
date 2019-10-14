@@ -15,6 +15,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.rubab.slider.models.CartModel;
 import com.example.rubab.slider.models.CategoriesModel;
 import com.example.rubab.slider.models.ItemsModel;
 import com.example.rubab.slider.models.SliderModel;
@@ -151,6 +152,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()){
             do {
                 ItemsModel list = new ItemsModel();
+                list.setId(cursor.getString(cursor.getColumnIndex("id")));
+                list.setCatid(cursor.getString(cursor.getColumnIndex("catid")));
                 list.setTitle(cursor.getString(cursor.getColumnIndex("productname")));
                 list.setImageUrl(cursor.getString(cursor.getColumnIndex("productimage")));
                 list.setPrice(cursor.getString(cursor.getColumnIndex("productprice")));
@@ -161,6 +164,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         myDataBase.close();
         return records;
+    }
+
+    public List<CategoriesModel> fetchCategories() {
+        List<CategoriesModel> records = new ArrayList();
+        myDataBase = this.getReadableDatabase();
+        Cursor cursor = myDataBase.rawQuery("Select * FROM categories", null);
+        if (cursor.moveToFirst()){
+            do {
+                CategoriesModel list = new CategoriesModel();
+                list.setId(cursor.getString(cursor.getColumnIndex("id")));
+                list.setTitle(cursor.getString(cursor.getColumnIndex("category_name")));
+                list.setImageUrl(cursor.getString(cursor.getColumnIndex("category_image")));
+                records.add(list);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        myDataBase.close();
+        return records;
+    }
+
+    public void addToCart(CartModel item) {
+        myDataBase = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("c_id", item.getC_id());
+        values.put("p_id", item.getP_id());
+        values.put("product_name", item.getProduct_name());
+        values.put("product_price", item.getProduct_price());
+
+        try {
+            myDataBase.insertWithOnConflict("cart", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
     }
 
 }
