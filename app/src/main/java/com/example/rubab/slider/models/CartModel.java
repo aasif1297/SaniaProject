@@ -6,13 +6,15 @@ public class CartModel {
     private String product_name;
     private String product_price;
     private String qty;
+    private String product_image;
 
-    public CartModel( String p_id, String c_id, String product_name, String product_price, String qty) {
+    public CartModel(String p_id, String c_id, String product_name, String product_price, String qty, String product_image) {
         this.p_id = p_id;
         this.c_id = c_id;
         this.product_name = product_name;
         this.product_price = product_price;
         this.qty = qty;
+        this.product_image = product_image;
     }
 
     public CartModel() {
@@ -56,5 +58,13 @@ public class CartModel {
 
     public void setQty(String qty) {
         this.qty = qty;
+    }
+
+    public String getProduct_image() {
+        return product_image;
+    }
+
+    public void setProduct_image(String product_image) {
+        this.product_image = product_image;
     }
 }

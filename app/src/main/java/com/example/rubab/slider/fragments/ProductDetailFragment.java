@@ -105,7 +105,7 @@ public class ProductDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String mPrice = String.valueOf(price);
-                CartModel cart = new CartModel(id,catid,txtTitle.getText().toString(),mPrice, txtQty.getText().toString());
+                CartModel cart = new CartModel(id,catid,txtTitle.getText().toString(),mPrice, txtQty.getText().toString(),img);
                 sqLiteDatabase.addToCart(cart);
             }
         });

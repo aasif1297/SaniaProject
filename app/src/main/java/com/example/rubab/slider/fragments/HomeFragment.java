@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rubab.slider.R;
+import com.example.rubab.slider.adapters.CartAdapter;
 import com.example.rubab.slider.adapters.CategoryAdapter;
 import com.example.rubab.slider.adapters.SliderAdapterExample;
 import com.example.rubab.slider.database.DatabaseHelper;

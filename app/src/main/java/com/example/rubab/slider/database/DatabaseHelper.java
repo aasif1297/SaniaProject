@@ -193,6 +193,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("productname", item.getProduct_name());
         values.put("price", item.getProduct_price());
         values.put("qty", item.getQty());
+        values.put("product_img", item.getProduct_image());
 
         try {
             myDataBase.insertWithOnConflict("cart", null, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -202,4 +203,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public List<CartModel> fetchCartItems() {
+        List<CartModel> records = new ArrayList();
+        myDataBase = this.getReadableDatabase();
+        Cursor cursor = myDataBase.rawQuery("Select * FROM cart", null);
+        if (cursor.moveToFirst()){
+            do {
+                CartModel list = new CartModel();
+                list.setProduct_name(cursor.getString(cursor.getColumnIndex("productname")));
+                list.setProduct_price(cursor.getString(cursor.getColumnIndex("price")));
+                list.setQty(cursor.getString(cursor.getColumnIndex("qty")));
+                list.setProduct_image(cursor.getString(cursor.getColumnIndex("product_img")));
+                records.add(list);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        myDataBase.close();
+        return records;
+    }
 }
