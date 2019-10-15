@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.rubab.slider.R;
 import com.example.rubab.slider.adapters.ItemsAdapter;
 import com.example.rubab.slider.database.DatabaseHelper;
@@ -27,6 +28,7 @@ public class EStoreFragment extends Fragment {
 
     RecyclerView recyclerView;
     ItemsAdapter it_product;
+    String id;
 
     DatabaseHelper sqLiteDatabase;
 
@@ -35,13 +37,17 @@ public class EStoreFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_estore, container, false);
 
+        if (getArguments() != null) {
+            id = getArguments().getString("id");
+        }
+
         try {
             sqLiteDatabase = new DatabaseHelper(getContext());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        List<ItemsModel> productsList =  sqLiteDatabase.fetchProducts();
+        List<ItemsModel> productsList =  sqLiteDatabase.fetchProducts(id);
 
         recyclerView= root.findViewById(R.id.estore_recycler);
         it_product = new ItemsAdapter(getContext(),productsList);

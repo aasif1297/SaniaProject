@@ -146,10 +146,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return records;
     }
 
-    public List<ItemsModel> fetchProducts() {
+    public List<ItemsModel> fetchProducts(String id) {
         List<ItemsModel> records = new ArrayList();
         myDataBase = this.getReadableDatabase();
-        Cursor cursor = myDataBase.rawQuery("Select * FROM products", null);
+        Cursor cursor = myDataBase.rawQuery("Select * FROM products WHERE catid ='"+id+"'", null);
         if (cursor.moveToFirst()){
             do {
                 ItemsModel list = new ItemsModel();

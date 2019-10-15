@@ -2,6 +2,7 @@ package com.example.rubab.slider.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -38,13 +39,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder categoryViewHolder, int i) {
-        CategoriesModel item = productList.get(i);
+        final CategoriesModel item = productList.get(i);
         categoryViewHolder.txt_title.setText(item.getTitle());
 
         categoryViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setupHomeFragment(new EStoreFragment());
+                setupHomeFragment(new EStoreFragment(), item.getId());
             }
         });
     }
@@ -72,9 +73,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         }
     }
 
-    private void setupHomeFragment(Fragment fragment) {
+    private void setupHomeFragment(Fragment fragment, String id) {
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         fragmentManager.popBackStack();
+        Fragment ldf = fragment;
+        Bundle args = new Bundle();
+        args.putString("id", id);
+        ldf.setArguments(args);
         fragmentManager.beginTransaction().add(R.id.content_main, fragment).commit();
     }
 

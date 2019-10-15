@@ -2,6 +2,7 @@ package com.example.rubab.slider.activities;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.ImageDecoder;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,10 +17,15 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.rubab.slider.adapters.CategoryAdapter;
 import com.example.rubab.slider.database.DatabaseHelper;
+import com.example.rubab.slider.fragments.CartFragment;
 import com.example.rubab.slider.fragments.HomeFragment;
 import com.example.rubab.slider.models.CategoriesModel;
 import com.example.rubab.slider.R;
@@ -38,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     NavigationView navigationView;
+    ImageView close;
 
 
 
@@ -49,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_view);
+        close = findViewById(R.id.close);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("");
@@ -64,25 +72,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         toolbar.setNavigationIcon(R.drawable.ic_menu_arrow);
         navigationView.setNavigationItemSelectedListener(MainActivity.this);
-//        close.setOnClickListener {
-//            drawer_layout.closeDrawer(GravityCompat.START)
-//        }
 
-//        txt_privacy.setOnClickListener {
-//            val intent = Intent(this@DashboardActivity, TermsConditionsActivity::class.java)
-//            startActivity(intent)
-//        }
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_cart) {
+            setupHomeFragment(new CartFragment());
+            Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.my_home: {
+                setupHomeFragment(new HomeFragment());
+                break;
+            }
+            case R.id.my_cart: {
+                setupHomeFragment(new HomeFragment());
+                break;
+            }
+            case R.id.settings: {
+                setupHomeFragment(new HomeFragment());
+                break;
+            }
+            case R.id.logout: {
+                setupHomeFragment(new HomeFragment());
+                break;
+            }
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     private void setupHomeFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
         fragmentManager.beginTransaction().add(R.id.content_main, fragment).commit();
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        return false;
     }
 }
 
