@@ -2,13 +2,25 @@ package com.example.rubab.slider.activities;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.example.rubab.slider.adapters.CategoryAdapter;
 import com.example.rubab.slider.database.DatabaseHelper;
+import com.example.rubab.slider.fragments.HomeFragment;
 import com.example.rubab.slider.models.CategoriesModel;
 import com.example.rubab.slider.R;
 import com.example.rubab.slider.adapters.ItemsAdapter;
@@ -21,49 +33,160 @@ import com.smarteist.autoimageslider.SliderView;
 import java.io.IOException;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    SliderView sliderView;
-    SliderAdapterExample adapter;
+    DrawerLayout drawerLayout;
+    Toolbar toolbar;
+    NavigationView navigationView;
 
-    RecyclerView recyclerView;
-    CategoryAdapter itadapter;
 
-    DatabaseHelper sqLiteDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupHomeFragment(new HomeFragment());
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.nav_view);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("");
+        actionBar.setElevation(4.0F);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(true);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        toolbar.setNavigationIcon(R.drawable.ic_menu_arrow);
+        navigationView.setNavigationItemSelectedListener(MainActivity.this);
+//        close.setOnClickListener {
+//            drawer_layout.closeDrawer(GravityCompat.START)
+//        }
 
-
-        sliderView = findViewById(R.id.imageSlider);
-        adapter =new  SliderAdapterExample(this);
-
-
-        try {
-            sqLiteDatabase = new DatabaseHelper(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        List<CategoriesModel> categoryList =  sqLiteDatabase.fetchCategories();
-
-        recyclerView= findViewById(R.id.my_recycler_view);
-        itadapter=new CategoryAdapter(this,categoryList);
-
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        recyclerView.setAdapter(itadapter);
-
-        sliderView.setSliderAdapter(adapter);
-        sliderView.setIndicatorAnimation(IndicatorAnimations.WORM) ;//set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-        sliderView.setIndicatorSelectedColor(Color.WHITE);
-        sliderView.setIndicatorUnselectedColor(Color.GRAY);
-        sliderView.setScrollTimeInSec(4);
-
-        sliderView.startAutoCycle();
+//        txt_privacy.setOnClickListener {
+//            val intent = Intent(this@DashboardActivity, TermsConditionsActivity::class.java)
+//            startActivity(intent)
+//        }
     }
 
+    private void setupHomeFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+        fragmentManager.beginTransaction().add(R.id.content_main, fragment).commit();
+    }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        return false;
+    }
 }
+
+
+/*
+*
+*
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_dashboard2)
+        setupViewPager()
+        firebaseAuth = FirebaseAuth.getInstance()
+        user_id = firebaseAuth.currentUser!!.uid
+        firestore = FirebaseFirestore.getInstance()
+        val actionBar = supportActionBar
+        actionBar!!.title = ""
+        actionBar.elevation = 4.0F
+        actionBar.setDisplayShowHomeEnabled(true)
+        actionBar.setDisplayUseLogoEnabled(true)
+        val toggle = ActionBarDrawerToggle(
+            this, drawer_layout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+        toolbar.setNavigationIcon(R.drawable.ic_menu_arrow)
+        nav_view.setNavigationItemSelectedListener(this)
+        close.setOnClickListener {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        }
+
+        txt_privacy.setOnClickListener {
+            val intent = Intent(this@DashboardActivity, TermsConditionsActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun setupViewPager() {
+        val myPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+        pager.adapter = myPagerAdapter
+        tablayout.setupWithViewPager(pager)
+    }
+
+    override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> true
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.my_home -> {
+                val intent = Intent(this@DashboardActivity, DashboardActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            R.id.my_watches -> {
+                setupHomeFragment(MyWatchesFragment())
+                tablayout.visibility = View.GONE
+            }
+            R.id.settings -> {
+                setupHomeFragment(SettingsFragment())
+                tablayout.visibility = View.GONE
+            }
+            R.id.logout -> {
+                FirebaseAuth.getInstance().signOut()
+                sendToLogin()
+            }
+        }
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    private fun setupHomeFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        fragmentManager.popBackStack()
+        fragmentManager.beginTransaction().add(R.id.content_main, fragment).commit()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = firebaseAuth.currentUser?.uid
+        if (currentUser == null) {
+            sendToLogin()
+        } else {
+            firestore.collection("users").document(currentUser).update("lastactive", FieldValue.serverTimestamp())
+        }
+    }
+
+    private fun sendToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+    }
+*
+* */
