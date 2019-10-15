@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/azur1">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/txt_customer_information"
+                android:textAllCaps="true"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view_info"
+                android:layout_width="45dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="@+id/txt_info"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txt_info"
+                app:layout_constraintTop_toBottomOf="@+id/txt_info" />
+
+            <EditText
+                android:id="@+id/ed_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@android:color/white"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="Email Address"
+                android:padding="16dp"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/txt_info"
+                app:layout_constraintTop_toBottomOf="@+id/view_info" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                app:layout_constraintEnd_toEndOf="@+id/ed_email"
+                app:layout_constraintStart_toStartOf="@+id/ed_email"
+                app:layout_constraintTop_toBottomOf="@+id/ed_email">
+
+                <EditText
+                    android:id="@+id/ed_f_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="0.5"
+                    android:background="@android:color/white"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="First Name"
+                    android:padding="16dp"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/ed_l_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="0.5"
+                    android:background="@android:color/white"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Last Name"
+                    android:padding="16dp"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/ed_cell"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="Phone Number"
+                android:padding="16dp"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+            <EditText
+                android:id="@+id/ed_address"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="top"
+                android:hint="Address"
+                android:padding="16dp"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/ed_cell"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/ed_cell"
+                app:layout_constraintTop_toBottomOf="@+id/ed_cell" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                app:layout_constraintEnd_toEndOf="@+id/ed_email"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/ed_email"
+                app:layout_constraintTop_toBottomOf="@+id/ed_address">
+
+                <EditText
+                    android:id="@+id/ed_state"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="0.5"
+                    android:background="@android:color/white"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="State/Privince"
+                    android:padding="16dp"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/city"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="0.5"
+                    android:background="@android:color/white"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="City"
+                    android:padding="16dp"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_ship"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/txt_ship"
+                android:textAllCaps="true"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+
+            <View
+                android:id="@+id/view_ship"
+                android:layout_width="45dp"
+                android:layout_height="3dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="@+id/txt_info"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txt_info"
+                app:layout_constraintTop_toBottomOf="@+id/txt_ship" />
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:paddingLeft="18dp"
+                android:text="Free Shipping"
+                android:textAllCaps="true"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/view_ship"
+                app:layout_constraintTop_toBottomOf="@+id/view_ship" />
+
+            <TextView
+                android:id="@+id/txt_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/txt_order_summary"
+                android:textAllCaps="true"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txt_ship"
+                app:layout_constraintTop_toBottomOf="@+id/radioButton" />
+
+            <View
+                android:id="@+id/view_order"
+                android:layout_width="45dp"
+                android:layout_height="3dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="@+id/txt_info"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txt_info"
+                app:layout_constraintTop_toBottomOf="@+id/txt_order" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="32dp"
+                android:background="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
+                app:layout_constraintStart_toStartOf="@+id/txt_order"
+                app:layout_constraintTop_toBottomOf="@+id/view_order">
+
+
+                <TextView
+                    android:id="@+id/txt_items"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:text="3 Items"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/azur"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_items" />
+
+                <TextView
+                    android:id="@+id/txt_total_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:padding="12dp"
+                    android:text="Order Total"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/view" />
+
+                <TextView
+                    android:id="@+id/txt_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:padding="12dp"
+                    android:text="Rs 0"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_total_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/txt_total_label"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/txt_shipping_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:padding="12dp"
+                    android:text="Shipping Fee"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_total" />
+
+                <TextView
+                    android:id="@+id/txt_shipping_charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:padding="12dp"
+                    android:text="Rs 99.00"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_shipping_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/txt_shipping_label"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@color/azur"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_shipping_charge" />
+
+                <TextView
+                    android:id="@+id/txt_payable_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:padding="12dp"
+                    android:text="Total Payable"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+                <TextView
+                    android:id="@+id/txt_payable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:padding="12dp"
+                    android:text="Rs 1096.00"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_payable_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/txt_payable_label"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_confirm"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="Confirm"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

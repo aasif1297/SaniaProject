@@ -121,7 +121,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
     }
 
     @Override
@@ -203,6 +202,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean confirmOrder(String id, String email, String f_name, String l_name, String cell, String address, String state, String city, String total_amount) {
+        boolean isBooked = false;
+        myDataBase = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id", id);
+        values.put("email", email);
+        values.put("f_name", f_name);
+        values.put("l_name", l_name);
+        values.put("cell", cell);
+        values.put("address", address);
+        values.put("state", state);
+        values.put("city", city);
+        values.put("total_amount", total_amount);
+
+        try {
+            myDataBase.insertWithOnConflict("ConfirmedOrderTable", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+            Toast.makeText(mycontext,"Order Confirmed", Toast.LENGTH_SHORT).show();
+            isBooked = true;
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            isBooked = false;
+        }
+
+        return isBooked;
+    }
+
     public List<CartModel> fetchCartItems() {
         List<CartModel> records = new ArrayList();
         myDataBase = this.getReadableDatabase();
@@ -220,5 +245,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         myDataBase.close();
         return records;
+    }
+
+    public int totalSum(){
+        myDataBase = this.getReadableDatabase();
+        Cursor mCount = myDataBase.rawQuery("SELECT SUM(price) AS totalSUM FROM cart", null);
+        mCount.moveToFirst();
+        int count = mCount.getInt(0);
+        mCount.close();
+        return count;
     }
 }
