@@ -117,4 +117,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment f = fm.findFragmentById(R.id.content_main);
+
+        if(fm.getBackStackEntryCount() > 1){
+            fm.popBackStack();
+        } else{
+            finish();
+        }
+    }
 }
