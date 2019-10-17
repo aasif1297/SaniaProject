@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -74,11 +75,14 @@ public class CartFragment extends Fragment {
 
     private void setupHomeFragment(Fragment fragment) {
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.popBackStack();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.content_main, fragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.addToBackStack(null);
         Fragment ldf = fragment;
         Bundle args = new Bundle();
         args.putInt("totalsum", totalSum);
         ldf.setArguments(args);
-        fragmentManager.beginTransaction().add(R.id.content_main, fragment).commit();
+        transaction.commit();
     }
 }

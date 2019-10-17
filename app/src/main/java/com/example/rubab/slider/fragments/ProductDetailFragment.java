@@ -4,12 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.rubab.slider.R;
@@ -37,6 +41,7 @@ public class ProductDetailFragment extends Fragment {
     String catid;
     int qty = 1;
     int initialPrice = 0;
+    int update = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,8 +58,6 @@ public class ProductDetailFragment extends Fragment {
         txtQty = root.findViewById(R.id.txt_qty);
         btnBuy = root.findViewById(R.id.btn_buy);
 
-        txtQty.setText("1");
-
         if (getArguments() != null) {
             id = getArguments().getString("id");
             catid = getArguments().getString("catid");
@@ -62,11 +65,14 @@ public class ProductDetailFragment extends Fragment {
             description = getArguments().getString("des");
             price = Integer.parseInt(getArguments().getString("price"));
             img = getArguments().getString("image");
+            qty = getArguments().getInt("qty");
+            update = getArguments().getInt("update");
 
             Glide.with(this).load(img).into(img_product);
             txtTitle.setText(title);
             txt_des.setText(description);
             txt_price.setText("Price. Rs "+price);
+            txtQty.setText(""+qty);
             initialPrice = price;
         }
 
@@ -100,16 +106,46 @@ public class ProductDetailFragment extends Fragment {
             e.printStackTrace();
         }
 
+        if (update!=0){
+            btnBuy.setText("UPDATE");
+            btnBuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    boolean isUpdated;
+                    String mPrice = String.valueOf(price);
+                    CartModel cart = new CartModel(id,mPrice, txtQty.getText().toString());
+                    isUpdated = sqLiteDatabase.updateCart(cart);
+                    if (isUpdated){
+                        setupHomeFragment(new CartFragment());
+                    }else{
+                        Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }else{
+            btnBuy.setText("BUY NOW");
+            btnBuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String mPrice = String.valueOf(price);
+                    CartModel cart = new CartModel(id,catid,txtTitle.getText().toString(),mPrice, txtQty.getText().toString(),img, txt_des.getText().toString());
+                    sqLiteDatabase.addToCart(cart);
+                }
+            });
+        }
 
-        btnBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String mPrice = String.valueOf(price);
-                CartModel cart = new CartModel(id,catid,txtTitle.getText().toString(),mPrice, txtQty.getText().toString(),img);
-                sqLiteDatabase.addToCart(cart);
-            }
-        });
+
+
 
         return root;
+    }
+
+    private void setupHomeFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.content_main, fragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,7 +90,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
 
     private void setupHomeFragment(Fragment fragment, String id, String catid, String title, String des, String price, String image) {
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-        fragmentManager.popBackStack();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.content_main, fragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.addToBackStack(null);
         Fragment ldf = fragment;
         Bundle args = new Bundle();
         args.putString("id", id);
@@ -98,8 +102,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         args.putString("des", des);
         args.putString("price", price);
         args.putString("image", image);
+        args.putString("image", image);
+        args.putInt("qty", 1);
+        args.putInt("update", 0);
         ldf.setArguments(args);
-        fragmentManager.beginTransaction().add(R.id.content_main, fragment).commit();
+        transaction.commit();
     }
 }
 
